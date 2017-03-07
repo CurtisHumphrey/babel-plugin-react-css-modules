@@ -11,7 +11,7 @@ type InputObjectType = {
 /**
  * Creates an AST representation of an InputObjectType shape object.
  */
-const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectExpression => {
+const createObjectExpression = (bt: BabelTypes, object: InputObjectType): ObjectExpression => {
   const properties = [];
 
   for (const name of Object.keys(object)) {
@@ -20,25 +20,25 @@ const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectE
     let newValue;
 
     // eslint-disable-next-line no-empty
-    if (t.isAnyTypeAnnotation(value)) {
+    if (bt.isAnyTypeAnnotation(value)) {
 
     } else if (typeof value === 'string') {
-      newValue = t.stringLiteral(value);
+      newValue = bt.stringLiteral(value);
     } else if (typeof value === 'object') {
-      newValue = createObjectExpression(t, value);
+      newValue = createObjectExpression(bt, value);
     } else {
       throw new Error('Unexpected type.');
     }
 
     properties.push(
-      t.objectProperty(
-        t.identifier('\'' + name + '\''),
+      bt.objectProperty(
+        bt.identifier('\'' + name + '\''),
         newValue
       )
     );
   }
 
-  return t.objectExpression(properties);
+  return bt.objectExpression(properties);
 };
 
 export default createObjectExpression;

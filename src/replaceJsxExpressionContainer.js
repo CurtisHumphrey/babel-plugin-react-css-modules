@@ -13,7 +13,7 @@ import BabelTypes, {
 } from 'babel-types';
 
 export default (
-  t: BabelTypes,
+  bt: BabelTypes,
   path: Object,
   styleNameAttribute: JSXAttribute,
   importedHelperIndentifier: Identifier,
@@ -31,7 +31,7 @@ export default (
 
   path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(styleNameAttribute), 1);
 
-  const styleNameExpression = t.callExpression(
+  const styleNameExpression = bt.callExpression(
     importedHelperIndentifier,
     [
       expressionContainerValue.expression,
@@ -46,7 +46,7 @@ export default (
         jSXExpressionContainer(
           binaryExpression(
             '+',
-            t.stringLiteral(classNameAttribute.value.value + ' '),
+            bt.stringLiteral(classNameAttribute.value.value + ' '),
             styleNameExpression
           )
         )
